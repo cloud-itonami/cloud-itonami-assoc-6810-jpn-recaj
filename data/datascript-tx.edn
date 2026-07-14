@@ -1,0 +1,26 @@
+;; data/datascript-tx.edn — DataScript tx-data derived from
+;; src/association/facts.cljc `association.facts/catalog` (ADR-2607141700
+;; Wave 0). No :db/id per entity, same shape as sibling tx-data files.
+;; `:association-rule/topic` serialized as a vector.
+
+[#:association-rule{:id "recaj.articles-of-incorporation"
+                     :title "定款 (Articles of Incorporation)"
+                     :association "recaj"
+                     :isic "6810"
+                     :country "JPN"
+                     :kind :self-regulatory-code
+                     :url "http://www.fdk.or.jp/f_outline/pdf/teikan.pdf"
+                     :url-provenance :official-association-site
+                     :retrieved-at "2026-07-15"
+                     :topic [:governance]}
+ #:association-rule{:id "recaj.voluntary-action-plan-fair-transactions"
+                     :title "適正取引の推進に向けた自主行動計画 (Voluntary Action Plan for Promoting Fair Transactions)"
+                     :association "recaj"
+                     :isic "6810"
+                     :country "JPN"
+                     :kind :self-regulatory-code
+                     :url "https://fdk.or.jp/k_etc/plan.html"
+                     :url-provenance :official-association-site
+                     :last-revised-date "2024-06-28"
+                     :retrieved-at "2026-07-15"
+                     :topic [:fair-transaction :consumer-protection]}]
