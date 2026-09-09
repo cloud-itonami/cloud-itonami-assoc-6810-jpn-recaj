@@ -1,16 +1,19 @@
 ;; The RECAJ source catalog, as Kotoba.
 ;;
-;; GENERATED from data/datascript-tx.edn, which src/association/facts.cljc
-;; reads as data. Both are the same catalog; this one reaches the Kotoba
-;; oracle, wasm and both native ISAs, which the .cljc cannot.
+;; GENERATED from data/datascript-tx.edn by
+;; scripts/gen_association_facts_kotoba.cljs -- do not edit by hand; edit the
+;; data file and regenerate. `src/association/facts.cljc` holds the same
+;; catalog, and association.facts-test asserts the two agree, so the data
+;; file is the one source all three readings come from. This one reaches the
+;; Kotoba oracle, wasm and both native ISAs, which the .cljc cannot.
 ;;
-;; `:topic` is a SET in the source. A set has no order and `topic` is
-;; indexed by position, so the generator uses the order the data file
-;; writes. `by-topic-id` answers by name and is unaffected.
+;; `:topic` is a SET in the .cljc. A set has no order and `topic` is indexed
+;; by position, so the generator uses the order the data file writes.
+;; `by-topic-id` answers by name and is unaffected.
 ;;
-;; Parity: test/association_facts_kotoba_parity_test.clj compares every
-;; field of every entry against the .cljc, so this file cannot drift from
-;; the data without the suite saying so.
+;; Parity: test/association_facts_kotoba_parity_test.clj compares every field
+;; of every entry against the .cljc, so this file cannot drift from the data
+;; without the suite saying so.
 
 (ns association-facts
   (:export [main association-covered? entry-count entry-field topic-count
@@ -18,14 +21,15 @@
 
 (defn association-covered? [a :string] :bool (string=? a "recaj"))
 
-(defn entry-count [a :string] :i64 (if (association-covered? a) 2 0))
+(defn entry-count [a :string] :i64 (if (association-covered? a) 15 0))
 
 (defn valid-entry? [a :string i :i64] :bool
-  (if (association-covered? a) (if (< i 0) false (< i 2)) false))
+  (if (association-covered? a) (if (< i 0) false (< i 15)) false))
 
 (defn entry-field [a :string i :i64 f :string] [:option :string]
   (if (valid-entry? a i)
-    (if (= i 0)
+    (cond
+      (= i 0)
       (cond
         (string=? f "id") (option-some-of [:option :string] "recaj.articles-of-incorporation")
         (string=? f "title") (option-some-of [:option :string] "定款 (Articles of Incorporation)")
@@ -36,8 +40,8 @@
         (string=? f "url") (option-some-of [:option :string] "http://www.fdk.or.jp/f_outline/pdf/teikan.pdf")
         (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
         (string=? f "retrieved-at") (option-some-of [:option :string] "2026-07-15")
-        :else (option-none-of [:option :string])
-        )
+        :else (option-none-of [:option :string]))
+      (= i 1)
       (cond
         (string=? f "id") (option-some-of [:option :string] "recaj.voluntary-action-plan-fair-transactions")
         (string=? f "title") (option-some-of [:option :string] "適正取引の推進に向けた自主行動計画 (Voluntary Action Plan for Promoting Fair Transactions)")
@@ -47,42 +51,332 @@
         (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
         (string=? f "url") (option-some-of [:option :string] "https://fdk.or.jp/k_etc/plan.html")
         (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2024-06-28")
         (string=? f "retrieved-at") (option-some-of [:option :string] "2026-07-15")
-        :else (option-none-of [:option :string])
-        )
-      )
+        :else (option-none-of [:option :string]))
+      (= i 2)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.after-service-standard-mid-high-rise")
+        (string=? f "title") (option-some-of [:option :string] "中高層住宅アフターサービス規準 (After-Service Standard for Mid- and High-Rise Housing)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_afterservice/index.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2000-04-21")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 3)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.after-service-standard-detached-house")
+        (string=? f "title") (option-some-of [:option :string] "戸建住宅アフターサービス規準 (After-Service Standard for Detached Housing)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_afterservice/token.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2000-07-14")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 4)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.after-service-standard-residential-land")
+        (string=? f "title") (option-some-of [:option :string] "宅地アフターサービス規準 (After-Service Standard for Residential Land)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_afterservice/takuti.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 5)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.condominium-trust-restoration-agreement")
+        (string=? f "title") (option-some-of [:option :string] "マンションの信頼性を回復するための取り組みに関する申し合わせ (Agreement on Measures to Restore Confidence in Condominiums)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_etc/pdf/18mansion.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2006-03-02")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 6)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.foundation-pile-construction-measures")
+        (string=? f "title") (option-some-of [:option :string] "基礎ぐい工事問題に関する対策委員会の中間とりまとめ報告書を踏まえた当協会の取り組みについて (Association Measures Following the Interim Report on the Foundation Pile Construction Problem)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "governance-program")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/news/pdf/houdoupress_20160121.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2016-01-21")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 7)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.barrier-free-information-agreement")
+        (string=? f "title") (option-some-of [:option :string] "共同住宅のバリアフリーに関する情報提供の取組に関する申合せ (Agreement on Providing Barrier-Free Information for Multi-Unit Housing)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_etc/pdf/barrierfree_1807.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2018-07-11")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 8)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.speculative-short-term-resale-measures")
+        (string=? f "title") (option-some-of [:option :string] "分譲マンションの投機的短期転売問題にかかる取組みについて (Measures on Speculative Short-Term Resale of Condominium Units)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_etc/pdf/tankitenbai_2511.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2025-11-25")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 9)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.business-continuity-plan-guideline-office")
+        (string=? f "title") (option-some-of [:option :string] "不動産協会事業継続計画ガイドライン～オフィスビル賃貸事業編～ (RECAJ Business Continuity Plan Guideline: Office Building Leasing Edition)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "practice-guidance")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_etc/guideline.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2007-11-16")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 10)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.long-term-repair-plan-preparation-guideline")
+        (string=? f "title") (option-some-of [:option :string] "長期修繕計画の作成指針 (Guideline for Preparing a Long-Term Repair Plan)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "practice-guidance")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_plan/tyouki.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 11)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.repair-reserve-fund-policy")
+        (string=? f "title") (option-some-of [:option :string] "長期修繕計画及び適正な修繕積立金のあり方 (Policy on Long-Term Repair Plans and Appropriate Repair Reserve Funds)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_plan/tsumitate.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 12)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.bim-apartment-brochure-drawing-handbook")
+        (string=? f "title") (option-some-of [:option :string] "不動産協会標準_集合住宅パンフレット図面作成の手引 (RECAJ Standard: Handbook for Preparing Multi-Unit Housing Brochure Drawings)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "practice-guidance")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_bim/pdf/bim_tebiki.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 13)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.real-estate-industry-environment-action-plan")
+        (string=? f "title") (option-some-of [:option :string] "不動産業環境実行計画～サステナブルなまちづくりに向けて～ (Real Estate Industry Environmental Action Plan: Toward Sustainable Town Development)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "governance-program")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/k_environment/plan_sustainable.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2013-03-21")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 14)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "recaj.personal-information-handling-policy")
+        (string=? f "title") (option-some-of [:option :string] "個人情報の取扱いについて (Policy on the Handling of Personal Information)")
+        (string=? f "association") (option-some-of [:option :string] "recaj")
+        (string=? f "isic") (option-some-of [:option :string] "6810")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "governance-program")
+        (string=? f "url") (option-some-of [:option :string] "https://www.fdk.or.jp/kojin/handling.html")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2005-04-01")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      :else (option-none-of [:option :string]))
     (option-none-of [:option :string])))
 
 (defn topic-count [a :string i :i64] :i64
   (if (valid-entry? a i)
-    (if (= i 0) 1 (if (= i 1) 2 0))
+    (cond
+      (= i 0)
+      1
+      (= i 1)
+      2
+      (= i 2)
+      2
+      (= i 3)
+      2
+      (= i 4)
+      2
+      (= i 5)
+      2
+      (= i 6)
+      2
+      (= i 7)
+      2
+      (= i 8)
+      2
+      (= i 9)
+      2
+      (= i 10)
+      2
+      (= i 11)
+      2
+      (= i 12)
+      1
+      (= i 13)
+      1
+      (= i 14)
+      2
+      :else 0)
     0))
 
 (defn topic [a :string i :i64 t :i64] [:option :string]
   (if (valid-entry? a i)
-    (if (= i 0)
-      (if (= t 0) (option-some-of [:option :string] "governance") (option-none-of [:option :string]))
-    (if (= i 1)
-      (if (= t 0) (option-some-of [:option :string] "fair-transaction") (if (= t 1) (option-some-of [:option :string] "consumer-protection") (option-none-of [:option :string])))
-    (option-none-of [:option :string])))
+  (cond
+    (= i 0)
+    (cond
+      (= t 0) (option-some-of [:option :string] "governance")
+      :else (option-none-of [:option :string]))
+    (= i 1)
+    (cond
+      (= t 0) (option-some-of [:option :string] "fair-transaction")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 2)
+    (cond
+      (= t 0) (option-some-of [:option :string] "after-service")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 3)
+    (cond
+      (= t 0) (option-some-of [:option :string] "after-service")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 4)
+    (cond
+      (= t 0) (option-some-of [:option :string] "after-service")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 5)
+    (cond
+      (= t 0) (option-some-of [:option :string] "building-safety")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 6)
+    (cond
+      (= t 0) (option-some-of [:option :string] "building-safety")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 7)
+    (cond
+      (= t 0) (option-some-of [:option :string] "accessibility")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 8)
+    (cond
+      (= t 0) (option-some-of [:option :string] "fair-transaction")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 9)
+    (cond
+      (= t 0) (option-some-of [:option :string] "business-continuity")
+      (= t 1) (option-some-of [:option :string] "disaster-preparedness")
+      :else (option-none-of [:option :string]))
+    (= i 10)
+    (cond
+      (= t 0) (option-some-of [:option :string] "building-maintenance")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 11)
+    (cond
+      (= t 0) (option-some-of [:option :string] "building-maintenance")
+      (= t 1) (option-some-of [:option :string] "consumer-protection")
+      :else (option-none-of [:option :string]))
+    (= i 12)
+    (cond
+      (= t 0) (option-some-of [:option :string] "digital-standard")
+      :else (option-none-of [:option :string]))
+    (= i 13)
+    (cond
+      (= t 0) (option-some-of [:option :string] "environment")
+      :else (option-none-of [:option :string]))
+    (= i 14)
+    (cond
+      (= t 0) (option-some-of [:option :string] "privacy")
+      (= t 1) (option-some-of [:option :string] "governance")
+      :else (option-none-of [:option :string]))
+    :else (option-none-of [:option :string]))
     (option-none-of [:option :string])))
 
 (defn by-topic-count [a :string candidate :string] :i64
   (if (association-covered? a)
-    (if (string=? candidate "governance") 1 (if (string=? candidate "fair-transaction") 1 (if (string=? candidate "consumer-protection") 1 0)))
+    (cond
+      (string=? candidate "governance") 2
+      (string=? candidate "fair-transaction") 2
+      (string=? candidate "consumer-protection") 10
+      (string=? candidate "after-service") 3
+      (string=? candidate "building-safety") 2
+      (string=? candidate "accessibility") 1
+      (string=? candidate "business-continuity") 1
+      (string=? candidate "disaster-preparedness") 1
+      (string=? candidate "building-maintenance") 2
+      (string=? candidate "digital-standard") 1
+      (string=? candidate "environment") 1
+      (string=? candidate "privacy") 1
+      :else 0)
     0))
 
 (defn by-topic-id [a :string candidate :string i :i64] [:option :string]
   (if (association-covered? a)
     (if (= i 0)
-      (if (string=? candidate "governance") (entry-field a 0 "id") (if (string=? candidate "fair-transaction") (entry-field a 1 "id") (if (string=? candidate "consumer-protection") (entry-field a 1 "id") (option-none-of [:option :string]))))
+      (cond
+        (string=? candidate "governance") (option-some-of [:option :string] "recaj.articles-of-incorporation")
+        (string=? candidate "fair-transaction") (option-some-of [:option :string] "recaj.voluntary-action-plan-fair-transactions")
+        (string=? candidate "consumer-protection") (option-some-of [:option :string] "recaj.voluntary-action-plan-fair-transactions")
+        (string=? candidate "after-service") (option-some-of [:option :string] "recaj.after-service-standard-mid-high-rise")
+        (string=? candidate "building-safety") (option-some-of [:option :string] "recaj.condominium-trust-restoration-agreement")
+        (string=? candidate "accessibility") (option-some-of [:option :string] "recaj.barrier-free-information-agreement")
+        (string=? candidate "business-continuity") (option-some-of [:option :string] "recaj.business-continuity-plan-guideline-office")
+        (string=? candidate "disaster-preparedness") (option-some-of [:option :string] "recaj.business-continuity-plan-guideline-office")
+        (string=? candidate "building-maintenance") (option-some-of [:option :string] "recaj.long-term-repair-plan-preparation-guideline")
+        (string=? candidate "digital-standard") (option-some-of [:option :string] "recaj.bim-apartment-brochure-drawing-handbook")
+        (string=? candidate "environment") (option-some-of [:option :string] "recaj.real-estate-industry-environment-action-plan")
+        (string=? candidate "privacy") (option-some-of [:option :string] "recaj.personal-information-handling-policy")
+        :else (option-none-of [:option :string]))
       (option-none-of [:option :string]))
     (option-none-of [:option :string])))
 
 (defn coverage-note [a :string] [:option :string]
   (if (association-covered? a)
-    (option-some-of [:option :string]
-      "cloud-itonami-assoc-6810-jpn-recaj Wave 0 (ADR-2607141700): 2 recaj entries seeded with an official citation. Extend the sovereign catalog; never fabricate a rule id/url.")
+    (option-some-of [:option :string] "cloud-itonami-assoc-6810-jpn-recaj (ADR-2607141700): 15 recaj entries, each with an official citation. Extend the sovereign catalog; never fabricate a rule id/url.")
     (option-none-of [:option :string])))
 
 (defn main [] :i64 0)
