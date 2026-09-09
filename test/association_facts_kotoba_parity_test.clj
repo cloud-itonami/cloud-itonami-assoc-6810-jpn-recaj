@@ -12,7 +12,8 @@
   by position, so the port chose the order the data file writes; the assertion
   below compares against that written order rather than against `seq` on a set,
   which is not stable to rely on."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.edn :as edn]
+            [clojure.test :refer [deftest is testing]]
             [association.facts :as facts]
             [kotoba.compiler.core :as compiler]
             [kotoba.kir :as ir]))
@@ -24,17 +25,26 @@
 
 (def ^:private slug "recaj")
 (def ^:private fields
+  ;; `last-revised-date` was missing from this list until 2026-09-09, so the
+  ;; port could omit it for an entry that has one and nothing would say so.
   ["id" "title" "association" "isic" "country" "kind" "url" "url-provenance"
-   "established-date" "retrieved-at"])
+   "established-date" "last-revised-date" "retrieved-at"])
 (def ^:private kw->field
   {"id" :association-rule/id "title" :association-rule/title
    "association" :association-rule/association "isic" :association-rule/isic
    "country" :association-rule/country "kind" :association-rule/kind
    "url" :association-rule/url "url-provenance" :association-rule/url-provenance
    "established-date" :association-rule/established-date
+   "last-revised-date" :association-rule/last-revised-date
    "retrieved-at" :association-rule/retrieved-at})
 (def ^:private entries (vec (facts/spec-basis slug)))
-(def ^:private topic-order [["governance"] ["fair-transaction" "consumer-protection"]])
+(def ^:private topic-order
+  ;; The written order, read from the file the port is generated from. Keeping
+  ;; this list by hand meant it had to be edited in step with the catalog, and
+  ;; a list that is one entry short makes the loops below skip that entry --
+  ;; which is a pass.
+  (mapv #(mapv name (:association-rule/topic %))
+        (edn/read-string (slurp "data/datascript-tx.edn"))))
 
 (deftest the-fixture-reads-a-real-catalog
   ;; An empty catalog compares equal to an empty port.
