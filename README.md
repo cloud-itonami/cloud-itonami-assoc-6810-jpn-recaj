@@ -37,10 +37,10 @@ The catalog has **fifteen** entries and is read three ways from one file.
   file the other two readings come from (query this alongside other
   `cloud-itonami`/`etzhayyim` compliance-fact sources via
   `com-junkawasaki/root`'s `scripts/compliance-fact-query.cljs`).
-- `src/association/facts.cljc` — the same catalog as a Clojure map, with
+- `src/association/facts.cljk` — the same catalog as a Clojure map, with
   `spec-basis` / `coverage` / `by-topic`.
 - `src/association_facts.kotoba` — **generated** from the source by
-  `scripts/gen_association_facts_kotoba.cljs`; do not edit by hand. This
+  `scripts/gen_association_facts_kotoba.cljk`; do not edit by hand. This
   is the reading that reaches the Kotoba oracle, wasm and both native
   ISAs, which the `.cljc` cannot.
 - `schema/association-rule.edn` — DataScript schema.
@@ -52,8 +52,8 @@ check. None of them is optional and none of them subsumes another.
 
 ```bash
 clojure -M:test                                  # the readings agree
-nbb scripts/gen_association_facts_kotoba.cljs --check   # the port is not stale
-nbb scripts/verify_citations.cljs                # the URLs still resolve
+nbb scripts/gen_association_facts_kotoba.cljk --check   # the port is not stale
+nbb scripts/verify_citations.cljk                # the URLs still resolve
 ```
 
 The suite is hermetic, so it cannot tell you whether a URL still answers
