@@ -8,7 +8,7 @@
 ;; `:association-rule/topic` is serialized as a vector; the .cljc holds a set.
 ;;
 ;; Every :association-rule/url was fetched and answered 200 with the content
-;; type its extension implies -- `nbb scripts/verify_citations.cljk` is how you
+;; type its extension implies -- `kbb --backend sci scripts/verify_citations.cljk` is how you
 ;; check that again. A rule that is not in this file has NO spec-basis; extend
 ;; it from an fdk.or.jp page you actually read, never from memory.
 

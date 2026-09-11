@@ -51,9 +51,9 @@ Three things can go wrong with a citation catalog, and each has its own
 check. None of them is optional and none of them subsumes another.
 
 ```bash
-clojure -M:test                                  # the readings agree
-nbb scripts/gen_association_facts_kotoba.cljk --check   # the port is not stale
-nbb scripts/verify_citations.cljk                # the URLs still resolve
+kbb -M:test                                  # the readings agree
+kbb --backend sci scripts/gen_association_facts_kotoba.cljk --check   # the port is not stale
+kbb --backend sci scripts/verify_citations.cljk                # the URLs still resolve
 ```
 
 The suite is hermetic, so it cannot tell you whether a URL still answers
