@@ -1,14 +1,14 @@
 ;; data/datascript-tx.edn — DataScript tx-data for the RECAJ self-regulatory
 ;; rule catalog (ADR-2607141700). This file is the SOURCE the other two
-;; readings come from: `scripts/gen_association_facts_kotoba.cljs` generates
+;; readings come from: `scripts/gen_association_facts_kotoba.cljk` generates
 ;; `src/association_facts.kotoba` from it, and `association.facts-test`
-;; asserts `src/association/facts.cljc` agrees with it field for field.
+;; asserts `src/association/facts.cljk` agrees with it field for field.
 ;;
 ;; No :db/id per entity, same shape as the sibling tx-data files.
 ;; `:association-rule/topic` is serialized as a vector; the .cljc holds a set.
 ;;
 ;; Every :association-rule/url was fetched and answered 200 with the content
-;; type its extension implies -- `nbb scripts/verify_citations.cljs` is how you
+;; type its extension implies -- `nbb scripts/verify_citations.cljk` is how you
 ;; check that again. A rule that is not in this file has NO spec-basis; extend
 ;; it from an fdk.or.jp page you actually read, never from memory.
 

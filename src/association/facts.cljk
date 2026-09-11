@@ -12,7 +12,7 @@
   stop; extend the catalog, do not invent an id/url.
 
   `data/datascript-tx.edn` holds the same fifteen entries and is the file
-  `scripts/gen_association_facts_kotoba.cljs` generates the Kotoba port
+  `scripts/gen_association_facts_kotoba.cljk` generates the Kotoba port
   from; `association.facts-test` asserts this map and that file agree
   field for field, so the three readings cannot drift apart silently.
 
@@ -32,7 +32,7 @@
   repair-plan instruments, the BIM drawing handbook, the environmental
   action plan, and the personal-information policy. Each URL was fetched
   and answered 200 with the content type its extension implies;
-  `nbb scripts/verify_citations.cljs` re-checks that on demand.
+  `nbb scripts/verify_citations.cljk` re-checks that on demand.
 
   The dates are the documents' own, read off the page that publishes each
   one -- the board-approval dates the After-Service Standards print
