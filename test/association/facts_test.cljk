@@ -10,7 +10,7 @@
   What they cannot check is whether the URL still resolves -- the suite is
   hermetic on purpose. `kbb --backend sci scripts/verify_citations.cljk` is the check that
   goes and looks."
-  (:require [clojure.edn :as edn]
+  (:require [kotoba.lang.edn :as edn]
             [kotoba.lang.text :as str]
             [kotoba.test :refer [deftest is testing]]
             [association.facts :as facts]))
