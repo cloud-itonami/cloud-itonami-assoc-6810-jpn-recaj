@@ -12,7 +12,7 @@
   goes and looks."
   (:require [clojure.edn :as edn]
             [kotoba.lang.text :as str]
-            [clojure.test :refer [deftest is testing]]
+            [kotoba.test :refer [deftest is testing]]
             [association.facts :as facts]))
 
 (def ^:private slug "recaj")
